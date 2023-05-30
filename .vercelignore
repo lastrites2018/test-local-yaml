@@ -1,0 +1,12 @@
+# Ignore everything (folders and files) on root only
+/*
+!/json
+!/util
+!index.js
+!db.js
+!api
+!vercel.json
+!*.html
+!package.json
+!package-lock.json
+!run.sh

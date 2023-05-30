@@ -1,0 +1,37 @@
+name: slack-notify
+description: "slack 채널에 메세지 전송"
+
+inputs:
+  status_output:
+    description: ""
+    required: true
+  token:
+    description: ""
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Send slack
+      env:
+        SLACK_TOKEN: ${{ inputs.token }}
+      shell: bash
+      #  봇 테스트 채널
+      run: |
+        curl \
+        -d 'text=안녕' \
+        -d 'channel=C03GU7HN9NZ' \
+        -H 'Authorization: Bearer ${{ env.SLACK_TOKEN }}' \
+        -X POST https://slack.com/api/chat.postMessage
+    #   run: |
+    #       curl \
+    #       -d 'text=${{github.repository}} ${{ github.ref_name }} ${{ inputs.status_output }} <https://github.com/${{github.repository}}/actions/runs/${{ github.run_id }}|Github Action>' \
+    #       -d 'channel=C03GU7HN9NZ' \
+    #       -H 'Authorization: Bearer ${{ env.SLACK_TOKEN }}' \
+    #       -X POST https://slack.com/api/chat.postMessage
+    #   run: |
+    #       curl \
+    #       -d 'text=${{github.repository}} ${{ github.ref_name }} ${{ inputs.status_output }} <https://github.com/${{github.repository}}/actions/runs/${{ github.run_id }}|Github Action>' \
+    #       -d 'channel=C011CC57BTR' \
+    #       -H 'Authorization: Bearer ${{ env.SLACK_TOKEN }}' \
+    #       -X POST https://slack.com/api/chat.postMessage

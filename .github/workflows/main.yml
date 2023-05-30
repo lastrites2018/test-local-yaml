@@ -1,14 +1,25 @@
 on:
   workflow_dispatch:
-    
+
 jobs:
   hello-my-actions:
-    runs-on: ubuntu-latest
+    # ubuntu-latest로 하면 자기 멋대로 잡음. 12.04로 받음. 이것도 같이 수정해줘야 함.
+    # runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
+    # runs-on: node:16-buster-slim
+    # runs-on: ubuntu-18.04
     name: Hello My Actions
     steps:
       - name: checkout
-        uses: actions/checkout@v1
-      - name: Run My Actions 
-        uses: ./
+        uses: actions/checkout@v3
+
+      - name: Run My Actions
+        uses: ./ # 루트 디렉토리에 있는 액션을 사용하라는 의미이다.
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: node version
+      #   uses: actions/setup-node@v2
+      #   with:
+      #     node-version: "16"
+      #     run: npm help
