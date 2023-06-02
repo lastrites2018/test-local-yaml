@@ -1,9 +1,9 @@
-name: 'hello-my-action'
-description: 'Hello My Action'
+name: "hello-my-action"
+description: "Hello My Action"
 inputs:
   github-token:
-    description: 'github token'
+    description: "github token"
     required: true
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node16"
+  main: "dist/index.js"
