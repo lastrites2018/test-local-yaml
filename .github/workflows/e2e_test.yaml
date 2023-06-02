@@ -56,15 +56,18 @@ jobs:
       #       retention-days: 30
 
       - name: Setup Pages
+        if: success() || failure()
         uses: actions/configure-pages@v2
 
       - name: Upload artifact
+        if: success() || failure()
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
           path: playwright-report/
 
       - name: Deploy to GitHub Pages
+        if: success() || failure()
         id: deployment
         uses: actions/deploy-pages@v1
 
