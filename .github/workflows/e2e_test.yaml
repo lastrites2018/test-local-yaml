@@ -31,9 +31,10 @@ jobs:
         with:
           node-version: "18.x"
 
-      - name: Get installed Playwright version
-        id: playwright-version
-        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').dependencies['@playwright/test'].version)")" >> $GITHUB_ENV
+      # npm 대신 yarn을 쓰기 때문에 아래 구문이 안 쓰기 때문에 의미가 없음.
+      # - name: Get installed Playwright version
+      #   id: playwright-version
+      #   run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').dependencies['@playwright/test'].version)")" >> $GITHUB_ENV
 
       - name: Cache playwright binaries
         uses: actions/cache@v3
@@ -41,8 +42,8 @@ jobs:
         with:
           path: |
             ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-          # key: cache-playwright-linux-1.34.3
+          # key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+          key: cache-playwright-linux-1.34.3
 
       - name: Install dependencies
         run: yarn install
@@ -109,12 +110,13 @@ jobs:
               exit 0
             fi
           done
+
       - name: Output Report URL as Worfklow Annotation
         id: full-html-report-url
         run: |
           FULL_HTML_REPORT_URL=https://${{github.repository_owner}}.github.io/test-local-yaml/$HTML_REPORT_URL_PATH
           echo "::notice title=📋 Published Playwright Test Report::$FULL_HTML_REPORT_URL"
-          echo 'full-html-report-url=$FULL_HTML_REPORT_URL' >> $GITHUB_OUTPUT
+          echo "::set-output name=full-html-report-url::$((FULL_HTML_REPORT_URL))"
 
     outputs:
       full-html-report-url: ${{ steps.full-html-report-url.outputs.full-html-report-url}}
@@ -155,4 +157,4 @@ jobs:
 
       - name: 아웃풋 테스트 ${{needs.publish_report.outputs.full-html-report-url}}
         run: |
-          echo "test"
+          echo ""
