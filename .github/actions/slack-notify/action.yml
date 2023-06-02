@@ -19,7 +19,7 @@ runs:
       #  봇 테스트 채널
       run: |
         curl \
-        -d 'text=안녕' \
+        -d 'text=안녕 ${{ inputs.status_output }}' \
         -d 'channel=C03GU7HN9NZ' \
         -H 'Authorization: Bearer ${{ env.SLACK_TOKEN }}' \
         -X POST https://slack.com/api/chat.postMessage
