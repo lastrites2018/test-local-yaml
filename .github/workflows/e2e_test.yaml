@@ -114,9 +114,10 @@ jobs:
         run: |
           FULL_HTML_REPORT_URL=https://${{github.repository_owner}}.github.io/test-local-yaml/$HTML_REPORT_URL_PATH
           echo "::notice title=📋 Published Playwright Test Report::$FULL_HTML_REPORT_URL"
+          echo 'full-html-report-url=$FULL_HTML_REPORT_URL' >> $GITHUB_OUTPUT
 
     outputs:
-      full-html-report-url: ${{ steps.full-html-report-url.outputs.FULL_HTML_REPORT_URL}}
+      full-html-report-url: ${{ steps.full-html-report-url.outputs.full-html-report-url}}
 
   slack_notification:
     name: slack notification (end)
@@ -152,6 +153,6 @@ jobs:
           status_output: "테스트 결과 : 실패❌ ${{needs.publish_report.outputs.full-html-report-url}}"
           token: ${{ secrets.SLACK_TOKEN }}
 
-      - name: 아웃풋 테스트 ${{needs.publish_report.env.HTML_REPORT_URL_PATH }} or ${{needs.publish_report.outputs.full-html-report-url}}
+      - name: 아웃풋 테스트 ${{needs.publish_report.outputs.full-html-report-url}}
         run: |
           echo "test"
