@@ -48,28 +48,12 @@ jobs:
       - name: Run tests
         run: yarn test:boa
 
-      # - uses: actions/upload-artifact@v2
-      #   if: failure()
-      #   with:
-      #       name: playwright-report
-      #       path: playwright-report/
-      #       retention-days: 30
-
-      - name: Setup Pages
+      - uses: actions/upload-artifact@v2
         if: success() || failure()
-        uses: actions/configure-pages@v2
-
-      - name: Upload artifact
-        if: success() || failure()
-        uses: actions/upload-pages-artifact@v1
         with:
-          # Upload entire repository
+          name: playwright-report
           path: playwright-report/
-
-      - name: Deploy to GitHub Pages
-        if: success() || failure()
-        id: deployment
-        uses: actions/deploy-pages@v1
+          retention-days: 30
 
       - name: slack notification (success)
         if: success()
