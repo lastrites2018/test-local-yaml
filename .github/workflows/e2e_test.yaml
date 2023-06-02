@@ -8,6 +8,12 @@ on:
         required: false
         default: "vos-team"
 
+env:
+  # Playwright uses this env var for the browser install path. See:
+  # https://playwright.dev/docs/ci#directories-to-cache
+  # It makes most sense to default this to something cross-platform
+  PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/ms-playwright
+
 jobs:
   dashboard_test:
     runs-on: ubuntu-latest
@@ -29,24 +35,26 @@ jobs:
       - name: setup-node
         uses: actions/setup-node@v3
         with:
+          cache: yarn
           node-version: "18.x"
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
 
-      # npm 대신 yarn을 쓰기 때문에 아래 구문이 안 쓰기 때문에 의미가 없음.
-      # - name: Get installed Playwright version
-      #   id: playwright-version
-      #   run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').dependencies['@playwright/test'].version)")" >> $GITHUB_ENV
+      # Use Playwright version as part of the cache key
+      # AFAIK this is a x-platform way to get your installed Playwright version.
+      # Be sure to be diligent in specifying ^, ~, or locked versions.
+      - run: |
+          echo "PLAYWRIGHT_VERSION=$(node -e "process.stdout.write(require('@playwright/test/package.json').version)")" >> $GITHUB_OUTPUT
+        id: playwright-version
 
       - name: Cache playwright binaries
         uses: actions/cache@v3
         id: playwright-cache
         with:
-          path: |
-            ~/.cache/ms-playwright
-          # key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-          key: cache-playwright-linux-1.34.3
+          key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.PLAYWRIGHT_VERSION }}
+          path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+          # key: cache-playwright-linux-1.34.3
 
-      - name: Install dependencies
-        run: yarn install
       - name: Install playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps
@@ -116,7 +124,7 @@ jobs:
         run: |
           FULL_HTML_REPORT_URL=https://${{github.repository_owner}}.github.io/test-local-yaml/$HTML_REPORT_URL_PATH
           echo "::notice title=📋 Published Playwright Test Report::$FULL_HTML_REPORT_URL"
-          echo "::set-output name=full-html-report-url::$((FULL_HTML_REPORT_URL))"
+          echo "::set-output name=full-html-report-url::$FULL_HTML_REPORT_URL"
 
     outputs:
       full-html-report-url: ${{ steps.full-html-report-url.outputs.full-html-report-url}}
