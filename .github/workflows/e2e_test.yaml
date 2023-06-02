@@ -8,15 +8,14 @@ on:
         required: false
         default: "vos-team"
 
-env:
-  # Playwright uses this env var for the browser install path. See:
-  # https://playwright.dev/docs/ci#directories-to-cache
-  # It makes most sense to default this to something cross-platform
-  PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/ms-playwright
-
 jobs:
   dashboard_test:
     runs-on: ubuntu-latest
+    env:
+      # Playwright uses this env var for the browser install path. See:
+      # https://playwright.dev/docs/ci#directories-to-cache
+      # It makes most sense to default this to something cross-platform
+      PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/ms-playwright
     steps:
       - name: github checkout
         uses: actions/checkout@v3
