@@ -138,5 +138,10 @@ jobs:
         if: needs.dashboard_test.result == 'failure'
         uses: ./.github/actions/slack-notify
         with:
-          status_output: "테스트 결과 : 실패❌ https://${{github.repository_owner}}.github.io/test-local-yaml/$HTML_REPORT_URL_PATH"
+          status_output: "테스트 결과 : 실패❌ https://${{github.repository_owner}}.github.io/test-local-yaml/${{ env.HTML_REPORT_URL_PATH }}"
           token: ${{ secrets.SLACK_TOKEN }}
+
+      - name: 아웃풋 테스트 ${{env.HTML_REPORT_URL_PATH }} or ${{needs.dashboard_test.env.HTML_REPORT_URL_PATH }}
+        run: |
+          FULL_HTML_REPORT_URL=https://${{github.repository_owner}}.github.io/test-local-yaml/$HTML_REPORT_URL_PATH
+          echo "::notice title=📋 Published Playwright Test Report::$FULL_HTML_REPORT_URL"
