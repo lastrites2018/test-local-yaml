@@ -95,7 +95,7 @@ jobs:
   publish_report:
     name: Publish HTML Report
     # using always() is not ideal here, because it would also run if the workflow was cancelled
-    # if: success() || needs.test.result == 'failure'
+    if: success() || needs.dashboard_test.result == 'failure'
     needs: [dashboard_test]
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -143,5 +143,3 @@ jobs:
           FULL_HTML_REPORT_URL=https://ysfaran.github.io/playwright-gh-actions-gh-pages/$HTML_REPORT_URL_PATH
 
           echo "::notice title=📋 Published Playwright Test Report::$FULL_HTML_REPORT_URL"
-
-
