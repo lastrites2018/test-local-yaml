@@ -34,8 +34,8 @@ jobs:
         with:
           path: |
             ~/.cache/ms-playwright
-          # key: cache-playwright-linux-1.34.3
-          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+          key: cache-playwright-linux-1.34.3
+          # key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
 
       - name: Install dependencies
         run: yarn install
