@@ -109,10 +109,9 @@ jobs:
 
   slack_notification:
     name: slack notification (end)
+    if: success() || needs.dashboard_test.result == 'failure'
     runs-on: ubuntu-latest
     needs: [dashboard_test]
-    # dashboard_test의 에러 여부와 상관없이 표시
-    continue-on-error: true
     steps:
       - name: slack notification (success)
         if: needs.dashboard_test.result == 'success'
