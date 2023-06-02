@@ -28,14 +28,21 @@ jobs:
 
       - name: setup-node
         uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').dependencies['@playwright/test'].version)")" >> $GITHUB_ENV
+
       - name: Cache playwright binaries
         uses: actions/cache@v3
         id: playwright-cache
         with:
           path: |
             ~/.cache/ms-playwright
-          key: cache-playwright-linux-1.34.3
-          # key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+          # key: cache-playwright-linux-1.34.3
 
       - name: Install dependencies
         run: yarn install
