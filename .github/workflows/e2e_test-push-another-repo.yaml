@@ -91,7 +91,6 @@ jobs:
     runs-on: ubuntu-latest
     continue-on-error: true
     env:
-      SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
       # Unique URL path for each workflow run attempt
       HTML_REPORT_URL_PATH: reports/${{ github.ref_name }}/${{ github.run_id }}/${{ github.run_attempt }}
     steps:
@@ -100,6 +99,7 @@ jobs:
         with:
           repository: lastrites2018/vos-test-report-frontend
           ref: gh-pages
+          ssh-key: ${{ secrets.SSH_DEPLOY_KEY }}
       - name: Set Git User
         # see: https://github.com/actions/checkout/issues/13#issuecomment-724415212
         run: |
@@ -116,6 +116,8 @@ jobs:
         # this is necessary when this job is running at least twice at the same time (e.g. through two pushes at the same time)
         run: |
           git add .
+          eval `ssh-agent -s`
+          ssh-add - <<< '${{ secrets.SSH_DEPLOY_KEY }}'
           git commit -m "workflow: add HTML report for run-id ${{ github.run_id }} (attempt:  ${{ github.run_attempt }}) https://${{github.repository_owner}}.github.io/test-local-yaml/$HTML_REPORT_URL_PATH"
 
           while true; do
