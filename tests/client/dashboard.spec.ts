@@ -15,8 +15,7 @@ test.beforeAll(async ({ browser, baseURL }) => {
         test.fail(true, 'playwright.config.ts 에서 baseURL 설정이 필요합니다.')
         return
     }
-    await page.goto(baseURL)
-    await page.waitForTimeout(15000)
+    await page.goto(baseURL!)
 })
 
 test.describe('통합폼 : 예상감정 의뢰하기', async () => {
@@ -27,10 +26,16 @@ test.describe('통합폼 : 예상감정 의뢰하기', async () => {
             .click()
             .catch(e => console.log('e: ', e))
 
+        // await page
+        //     .getByRole('combobox', { name: '주소 검색' })
+        //     .click()
+        //     .catch(e => console.log('e: ', e))
+
         await page
-            .getByRole('combobox', { name: '주소 검색' })
+            .getByTestId('담보소재지')
             .click()
             .catch(e => console.log('e: ', e))
+
         await page
             .locator('input[name="담보소재지"]')
             .fill('공간의가치')
@@ -71,7 +76,12 @@ test.describe('통합폼 : 정식감정 의뢰하기', async () => {
         await page.getByRole('button', { name: '예상감정' }).click()
         await page.getByRole('option', { name: '감정평가' }).click()
 
-        await page.getByRole('combobox', { name: '주소 검색' }).click()
+        // await page.getByRole('combobox', { name: '주소 검색' }).click()
+        await page
+            .getByTestId('담보소재지')
+            .click()
+            .catch(e => console.log('e: ', e))
+
         await page.locator('input[name="담보소재지"]').fill('은마아파트')
 
         await page.getByText('구암서4길 15').click()
@@ -231,7 +241,11 @@ test.describe('통합폼 : 사업성검토 의뢰하기', async () => {
         await page.waitForTimeout(100)
         await page.getByRole('option', { name: '사업성검토' }).click()
 
-        await page.getByRole('combobox', { name: '주소 검색' }).click()
+        await page
+            .getByTestId('담보소재지')
+            .click()
+            .catch(e => console.log('e: ', e))
+
         await page.locator('input[name="담보소재지"]').fill('삼성동 167')
 
         await page.getByText('영동대로 512').click()
