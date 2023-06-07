@@ -367,11 +367,7 @@ test.describe('통합폼 : 사업성검토 의뢰하기', async () => {
             )
             .toHaveValue('010-1111-3333')
         await page.getByRole('button', { name: '창 닫기' }).click()
+        // 클로즈 시점 변경?
+        await page.close()
     })
-})
-
-test.afterAll(async ({ browser, baseURL }) => {
-    console.log('테스트 종료')
-    page = await browser.newPage()
-    await page.close()
 })
