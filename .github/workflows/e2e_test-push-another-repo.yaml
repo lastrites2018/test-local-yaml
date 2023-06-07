@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       name:
-        description: "수동 실행"
+        description: "테스트 수동 실행"
         required: false
         default: "vos-team"
 
@@ -15,9 +15,8 @@ jobs:
       - name: github checkout
         uses: actions/checkout@v3
         with:
-          # 바꿔야 함.
+          # branch 맞춰서 바꿔야 함.
           ref: main
-          #   ref: dev
           token: ${{ secrets.GIT_HUB_TOKEN }}
 
       - name: slack notification (start)
@@ -62,7 +61,7 @@ jobs:
         run: npx playwright install-deps
 
       - name: Run tests
-        run: yarn test:boa
+        run: baseURL=${{ secrets.baseURL }} loginURL=${{ secrets.loginURL }} REACT_APP_CLIENT_ID=${{ secrets.REACT_APP_CLIENT_ID }} REACT_APP_CLIENT_PWD=${{ secrets.REACT_APP_CLIENT_PWD }} npx playwright test --config ./tests/client/playwright.config.ts dashboard.spec
 
       - uses: actions/upload-artifact@v3
         if: success() || failure()
@@ -70,18 +69,6 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 3
-
-      # - name: Pushes to another repository
-      #   uses: cpina/github-action-push-to-another-repository@main
-      #   if: success() || failure()
-      #   env:
-      #     SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
-      #   with:
-      #     source-directory: "playwright-report"
-      #     destination-github-username: "lastrites2018"
-      #     destination-repository-name: "vos-test-report-frontend"
-      #     user-email: lastrites@nate.com
-      #     target-branch: gh-pages
 
   publish_report:
     name: Publish HTML Report
@@ -159,7 +146,7 @@ jobs:
         if: needs.dashboard_test.result == 'success'
         uses: ./.github/actions/slack-notify
         with:
-          status_output: "테스트 결과 : 성공✅"
+          status_output: "테스트 결과 : 성공✅ ${{needs.publish_report.outputs.full-html-report-url}}"
           token: ${{ secrets.SLACK_TOKEN }}
 
       - name: slack notification (cancel)
