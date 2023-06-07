@@ -66,7 +66,7 @@ jobs:
         # run: npx playwright install-deps
 
       - name: Run tests
-        run: baseURL=${{ secrets.baseURL }} loginURL=${{ secrets.loginURL }} REACT_APP_CLIENT_ID=${{ secrets.REACT_APP_CLIENT_ID }} REACT_APP_CLIENT_PWD=${{ secrets.REACT_APP_CLIENT_PWD }} npx playwright test --config ./tests/client/playwright.config.ts dashboard.spec
+        run: baseURL='${{ secrets.baseURL }}' loginURL='${{ secrets.loginURL }}' REACT_APP_CLIENT_ID='${{ secrets.REACT_APP_CLIENT_ID }}' REACT_APP_CLIENT_PWD='${{ secrets.REACT_APP_CLIENT_PWD }}' npx playwright test --config ./tests/client/playwright.config.ts dashboard.spec
 
       - uses: actions/upload-artifact@v3
         if: success() || failure()
