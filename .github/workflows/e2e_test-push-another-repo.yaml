@@ -52,14 +52,18 @@ jobs:
         with:
           key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.PLAYWRIGHT_VERSION }}
           path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
           # key: cache-playwright-linux-1.34.3
 
       - name: Install playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps
-      - name: Install playwright system dependencies
+        run: npx playwright install --with-deps chromium
+        # run: npx playwright install --with-deps
+      - name: Install only playwright system dependencies
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps
+        run: npx playwright install-deps chromium
+        # run: npx playwright install-deps
 
       - name: Run tests
         run: baseURL=${{ secrets.baseURL }} loginURL=${{ secrets.loginURL }} REACT_APP_CLIENT_ID=${{ secrets.REACT_APP_CLIENT_ID }} REACT_APP_CLIENT_PWD=${{ secrets.REACT_APP_CLIENT_PWD }} npx playwright test --config ./tests/client/playwright.config.ts dashboard.spec
