@@ -42,21 +42,26 @@ jobs:
       # Use Playwright version as part of the cache key
       # AFAIK this is a x-platform way to get your installed Playwright version.
       # Be sure to be diligent in specifying ^, ~, or locked versions.
-      - run: |
-          echo "PLAYWRIGHT_VERSION=$(node -e "process.stdout.write(require('@playwright/test/package.json').version)")" >> $GITHUB_OUTPUT
+      # - run: |
+      #     echo "PLAYWRIGHT_VERSION=$(node -e "process.stdout.write(require('@playwright/test/package.json').version)")" >> $GITHUB_OUTPUT
+      #   id: playwright-version
+
+      - name: Get installed Playwright version
         id: playwright-version
+        run: echo "PLAYWRIGHT_VERSION=$(npm ls @playwright/test | grep @playwright | sed 's/.*@//')" >> $GITHUB_OUTPUT
 
       - name: Cache playwright binaries
         uses: actions/cache@v3
         id: playwright-cache
-        env:
-          # Playwright uses this env var for the browser install path. See:
-          # https://playwright.dev/docs/ci#directories-to-cache
-          # It makes most sense to default this to something cross-platform
-          PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/ms-playwright
+        # env:
+        #   # Playwright uses this env var for the browser install path. See:
+        #   # https://playwright.dev/docs/ci#directories-to-cache
+        #   # It makes most sense to default this to something cross-platform
+        #   PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}/ms-playwright
         with:
           key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.PLAYWRIGHT_VERSION }}
-          path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
+          path: ~/.cache/ms-playwright
+          # path: ${{ env.PLAYWRIGHT_BROWSERS_PATH }}
           restore-keys: |
             ${{ runner.os }}-playwright-
           # key: cache-playwright-linux-1.34.3
