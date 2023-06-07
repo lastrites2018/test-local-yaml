@@ -63,7 +63,9 @@ const config: PlaywrightTestConfig = {
         baseURL: process.env.baseURL || '',
         storageState: 'tests/state.json',
         // 추가
-        video: 'on-first-retry',
+        video: {
+            mode: 'retain-on-failure'
+        },
         trace: 'on-first-retry'
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     },

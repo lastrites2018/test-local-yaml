@@ -369,3 +369,9 @@ test.describe('통합폼 : 사업성검토 의뢰하기', async () => {
         await page.getByRole('button', { name: '창 닫기' }).click()
     })
 })
+
+test.afterAll(async ({ browser, baseURL }) => {
+    console.log('테스트 종료')
+    page = await browser.newPage()
+    await page.close()
+})
