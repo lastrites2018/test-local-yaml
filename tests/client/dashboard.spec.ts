@@ -31,7 +31,10 @@ test.describe('통합폼 : 예상감정 의뢰하기', async () => {
             .getByRole('combobox', { name: '주소 검색' })
             .click()
             .catch(e => console.log('e: ', e))
-        await page.locator('input[name="담보소재지"]').fill('공간의가치')
+        await page
+            .locator('input[name="담보소재지"]')
+            .fill('공간의가치')
+            .catch(e => console.log('e: ', e))
 
         await page
             .getByText('테헤란로98길 8')
@@ -41,6 +44,7 @@ test.describe('통합폼 : 예상감정 의뢰하기', async () => {
         await page
             .getByPlaceholder('여러 필지(여러 호수)일 때 여기에 작성해주세요')
             .fill(테스트문구)
+            .catch(e => console.log('e: ', e))
 
         await page
             .getByRole('button', { name: '의뢰', exact: true })
@@ -53,6 +57,7 @@ test.describe('통합폼 : 예상감정 의뢰하기', async () => {
                 'div[role="row"]:nth-child(2) > div[role="cell"]:nth-child(3)'
             )
             .innerText()
+            .catch(e => console.log('e: ', e))
         console.log('textContent: ', textContent)
 
         expect(textContent).toContain('서울시 강남구 대치동 945-10')
