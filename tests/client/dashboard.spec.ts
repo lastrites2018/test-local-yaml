@@ -188,6 +188,7 @@ test.describe('통합폼 : 정식감정 의뢰하기', async () => {
             .press('ArrowUp')
         await page.getByRole('button', { name: '수정 완료' }).click()
         await page.getByRole('button', { name: '예' }).click()
+        await page.waitForTimeout(1000)
 
         await expect
             .soft(
@@ -229,6 +230,7 @@ test.describe('통합폼 : 정식감정 의뢰하기', async () => {
                 '채무자 연락처가 010-1111-3333로 바뀌어야 합니다.'
             )
             .toHaveValue('010-1111-3333')
+
         await page.getByRole('button', { name: '창 닫기' }).click()
     })
 })
@@ -335,6 +337,7 @@ test.describe('통합폼 : 사업성검토 의뢰하기', async () => {
             .press('ArrowUp')
         await page.getByRole('button', { name: '수정 완료' }).click()
         await page.getByRole('button', { name: '예' }).click()
+        await page.waitForTimeout(1000)
 
         await expect
             .soft(
