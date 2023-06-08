@@ -176,7 +176,7 @@ jobs:
               if: needs.dashboard_test.result == 'success'
               uses: ./.github/actions/slack-notify
               with:
-                  status_output: '테스트 결과 : 성공✅ ${{needs.publish_report.outputs.full-html-report-url}}'
+                  status_output: '테스트 결과 : 성공✅  <${{needs.publish_report.outputs.full-html-report-url}} | Report> '
                   token: ${{ secrets.SLACK_TOKEN }}
 
             - name: slack notification (cancel)
@@ -190,7 +190,7 @@ jobs:
               if: needs.dashboard_test.result == 'failure'
               uses: ./.github/actions/slack-notify
               with:
-                  status_output: '테스트 결과 : 실패❌ ${{needs.publish_report.outputs.full-html-report-url}}'
+                  status_output: '테스트 결과 : 실패❌  <${{needs.publish_report.outputs.full-html-report-url}} | Report> '
                   token: ${{ secrets.SLACK_TOKEN }}
 
             # - name: 아웃풋 테스트 ${{needs.publish_report.outputs.full-html-report-url}}
