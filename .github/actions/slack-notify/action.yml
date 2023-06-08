@@ -19,12 +19,13 @@ runs:
       #  봇 테스트 채널
       run: |
         curl \
-        -d 'text=안녕 ${{ inputs.status_output }}' \
+        -d 'text=${{github.repository}} ${{ github.ref_name }} ${{ inputs.status_output }} <https://github.com/${{github.repository}}/actions/runs/${{ github.run_id }}|Github Action :github:>' \
         -d 'channel=C03GU7HN9NZ' \
         -H 'Authorization: Bearer ${{ env.SLACK_TOKEN }}' \
         -X POST https://slack.com/api/chat.postMessage
     #   run: |
     #       curl \
+    # -d 'text=안녕 ${{ inputs.status_output }}' \
     #       -d 'text=${{github.repository}} ${{ github.ref_name }} ${{ inputs.status_output }} <https://github.com/${{github.repository}}/actions/runs/${{ github.run_id }}|Github Action>' \
     #       -d 'channel=C03GU7HN9NZ' \
     #       -H 'Authorization: Bearer ${{ env.SLACK_TOKEN }}' \
