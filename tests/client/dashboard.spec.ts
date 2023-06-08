@@ -235,7 +235,10 @@ test.describe('통합폼 : 정식감정 의뢰하기', async () => {
 
 test.describe('통합폼 : 사업성검토 의뢰하기', async () => {
     test('사업성검토 의뢰 & 물건 종류 토지로 변경 테스트', async () => {
-        await page.click('text=의뢰하기')
+        await page.waitForTimeout(2500)
+        await page
+            .getByRole('button', { name: '의뢰하기', exact: true })
+            .click()
 
         await page.getByRole('button', { name: '예상감정' }).click()
         await page.waitForTimeout(100)
