@@ -154,6 +154,7 @@ jobs:
               run: |
                   FULL_HTML_REPORT_URL=https://${{github.repository_owner}}.github.io/vos-test-report-frontend/$HTML_REPORT_URL_PATH
                   echo "::notice title=📋 Published Playwright Test Report::[Click here]($FULL_HTML_REPORT_URL) "
+                  echo "::notice title=📋 Published Playwright Test Report::<$FULL_HTML_REPORT_URL|NOTE> "
                   echo "::set-output name=full-html-report-url::$FULL_HTML_REPORT_URL"
 
         outputs:
@@ -176,7 +177,7 @@ jobs:
               if: needs.dashboard_test.result == 'success'
               uses: ./.github/actions/slack-notify
               with:
-                  status_output: '테스트 결과 : 성공✅  <${{needs.publish_report.outputs.full-html-report-url}} | Report> '
+                  status_output: '테스트 결과 : 성공✅ 📑 <${{needs.publish_report.outputs.full-html-report-url}} | Report> '
                   token: ${{ secrets.SLACK_TOKEN }}
 
             - name: slack notification (cancel)
@@ -190,7 +191,7 @@ jobs:
               if: needs.dashboard_test.result == 'failure'
               uses: ./.github/actions/slack-notify
               with:
-                  status_output: '테스트 결과 : 실패❌  <${{needs.publish_report.outputs.full-html-report-url}} | Report> '
+                  status_output: '테스트 결과 : 실패❌ 📑 <${{needs.publish_report.outputs.full-html-report-url}} | Report> '
                   token: ${{ secrets.SLACK_TOKEN }}
 
             # - name: 아웃풋 테스트 ${{needs.publish_report.outputs.full-html-report-url}}
