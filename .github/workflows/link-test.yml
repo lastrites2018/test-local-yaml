@@ -46,6 +46,10 @@ jobs:
               run: |
                   FULL_HTML_REPORT_URL=https://lastrites2018.github.io/test-local-yaml/
                   echo "::notice title=📋 Published Playwright Test Report test3::$FULL_HTML_REPORT_URL [GitHub Pages]($FULL_HTML_REPORT_URL)"
+            - name: link-test4
+              run: |
+                  FULL_HTML_REPORT_URL=https://lastrites2018.github.io/test-local-yaml/
+                  echo "::notice title=이거 작동되나요?::<a href='${FULL_HTML_REPORT_URL}' target='_blank'>TEST</a>"
 
             - name: 아웃풋 테스트
               run: |
