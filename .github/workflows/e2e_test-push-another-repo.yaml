@@ -1,17 +1,17 @@
 name: 수동 e2e_test-push-another-repo
 
-# on:
-#   workflow_dispatch:
-#     inputs:
-#       name:
-#         description: "테스트 수동 실행"
-#         required: false
-#         default: "vos-team"
-
 on:
-    push:
-        branches:
-            - main
+    workflow_dispatch:
+        inputs:
+            name:
+                description: '테스트 수동 실행'
+                required: false
+                default: 'vos-team'
+
+# on:
+#     push:
+#         branches:
+#             - main
 
 jobs:
     dashboard_test:
