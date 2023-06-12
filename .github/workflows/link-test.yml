@@ -72,12 +72,12 @@ jobs:
               id: full-html-report-url
               run: |
                   FULL_HTML_REPORT_URL=https://${{github.repository_owner}}.github.io/$HTML_REPORT_URL_PATH
-                  echo "full-html-report-url=$FULL_HTML_REPORT_URL" >> $GITHUB_OUTPUT
+                  echo "url=$FULL_HTML_REPORT_URL" >> $GITHUB_OUTPUT
 
             - name: Output Report URL as Markdown Link Summary
               run: |
-                  FULL_HTML_REPORT_URL=${{steps.full-html-report-url.outputs.full-html-report-url}}
-                  echo "[Test Report 바로가기]($steps.full-html-report-url.outputs.full-html-report-url)" >> $GITHUB_STEP_SUMMARY
+                  FULL_HTML_REPORT_URL=${{steps.full-html-report-url.outputs.url}}
+                  echo "[Test Report 바로가기]($steps.full-html-report-url.outputs.url)" >> $GITHUB_STEP_SUMMARY
 
         outputs:
-            full-html-report-url: ${{ steps.full-html-report-url.outputs.full-html-report-url}}
+            full-html-report-url: ${{ steps.full-html-report-url.outputs.url}}
