@@ -15,10 +15,9 @@ jobs:
         continue-on-error: true
         steps:
             - name: link-test1
-              id: full-html-report-url
               run: |
                   FULL_HTML_REPORT_URL=https://lastrites2018.github.io/test-local-yaml/
-                  echo '::notice title=📋 잘 작동하니?::$FULL_HTML_REPORT_URL links::wiki $FULL_HTML_REPORT_URL'
+                  echo '::notice title=📋 잘 작동하니?::{{$FULL_HTML_REPORT_URL}} links::wiki {{$FULL_HTML_REPORT_URL}}'
             # - name: link-test1
             #   id: full-html-report-url
             #   run: |
