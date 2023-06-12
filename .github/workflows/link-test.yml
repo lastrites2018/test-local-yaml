@@ -17,7 +17,7 @@ jobs:
             - name: link-test1
               run: |
                   FULL_HTML_REPORT_URL=https://lastrites2018.github.io/test-local-yaml/
-                  echo '::notice title=📋 잘 작동하니?::{{$FULL_HTML_REPORT_URL}} links::wiki {{$FULL_HTML_REPORT_URL}}'
+                  echo '::notice title=📋 잘 작동하니?::$FULL_HTML_REPORT_URL links::wiki ::$FULL_HTML_REPORT_URL'
             # - name: link-test1
             #   id: full-html-report-url
             #   run: |
@@ -28,6 +28,11 @@ jobs:
               run: |
                   FULL_HTML_REPORT_URL=https://lastrites2018.github.io/test-local-yaml/
                   echo '::error file=README.md,line=1,title=testing links::wiki https://github.com/austinpray-mixpanel/gha-demo-annotation-links/wiki/GHA-0001'
+
+            - name: 자동 링크는 gitgub만 되는지 테스트
+              run: |
+                  FULL_HTML_REPORT_URL=https://lastrites2018.github.io/test-local-yaml/
+                  echo '::error file=README.md,line=1,title=auto link? links::wiki $FULL_HTML_REPORT_URL'
 
             - name: link-test3
               run: |
