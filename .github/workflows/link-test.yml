@@ -1,0 +1,38 @@
+name: link-test
+
+on:
+    workflow_dispatch:
+        inputs:
+            name:
+                description: 'link-test'
+                required: false
+                default: '링크 테스트'
+
+jobs:
+    publish_report:
+        name: Publish HTML Report
+        runs-on: ubuntu-latest
+        continue-on-error: true
+        steps:
+            - name: link-test1
+              id: full-html-report-url
+              run: |
+                  FULL_HTML_REPORT_URL=https://lastrites2018.github.io/test-local-yaml/
+                  echo "::notice title=📋 Published Playwright Test Report::$FULL_HTML_REPORT_URL links::wiki https://github.com/austinpray-mixpanel/gha-demo-annotation-links/wiki/GHA-0001""
+
+            - name: link-test2
+              run: |
+                  FULL_HTML_REPORT_URL=https://lastrites2018.github.io/test-local-yaml/
+                  echo '::error file=README.md,line=1,title=testing links::wiki https://github.com/austinpray-mixpanel/gha-demo-annotation-links/wiki/GHA-0001'
+
+            - name: link-test3
+              run: |
+                  FULL_HTML_REPORT_URL=https://lastrites2018.github.io/test-local-yaml/
+                  echo "::notice title=📋 Published Playwright Test Report::$FULL_HTML_REPORT_URL links::wiki $FULL_HTML_REPORT_URL"
+
+            - name: 아웃풋 테스트
+              run: |
+                  echo "테스트"
+
+        outputs:
+            full-html-report-url: ${{ steps.full-html-report-url.outputs.full-html-report-url}}
