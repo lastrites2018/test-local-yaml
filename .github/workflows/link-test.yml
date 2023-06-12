@@ -18,7 +18,12 @@ jobs:
               id: full-html-report-url
               run: |
                   FULL_HTML_REPORT_URL=https://lastrites2018.github.io/test-local-yaml/
-                  echo '::notice title=📋 Published Playwright Test Report::$FULL_HTML_REPORT_URL links::wiki https://github.com/austinpray-mixpanel/gha-demo-annotation-links/wiki/GHA-0001'
+                  echo '::notice title=📋 잘 작동하니?::$FULL_HTML_REPORT_URL links::wiki $FULL_HTML_REPORT_URL'
+            # - name: link-test1
+            #   id: full-html-report-url
+            #   run: |
+            #       FULL_HTML_REPORT_URL=https://lastrites2018.github.io/test-local-yaml/
+            #       echo '::notice title=📋 Published Playwright Test Report::$FULL_HTML_REPORT_URL links::wiki https://github.com/austinpray-mixpanel/gha-demo-annotation-links/wiki/GHA-0001'
 
             - name: link-test2
               run: |
@@ -28,7 +33,7 @@ jobs:
             - name: link-test3
               run: |
                   FULL_HTML_REPORT_URL=https://lastrites2018.github.io/test-local-yaml/
-                  echo "::notice title=📋 Published Playwright Test Report::$FULL_HTML_REPORT_URL links::wiki $FULL_HTML_REPORT_URL"
+                  echo "::notice title=📋 Published Playwright Test Report test3::$FULL_HTML_REPORT_URL links::wiki $FULL_HTML_REPORT_URL"
 
             - name: 아웃풋 테스트
               run: |
